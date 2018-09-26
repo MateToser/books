@@ -47,4 +47,13 @@ public class BookServiceImpl implements BookService {
 		bookRepository.save(book);
 	}
 
+	@Override
+	public Boolean approveBook(Integer userId, Integer bookId) {
+		Optional<User> user = userRepository.findById(userId);
+		if (user.isPresent()) {
+
+		}
+		return null;
+	}
+
 }

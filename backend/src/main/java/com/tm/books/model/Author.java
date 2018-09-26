@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -47,7 +48,7 @@ public class Author implements Serializable {
 	private String name;
 
 	@JsonView(Views.Author.class)
-	@OneToMany(mappedBy = "author", cascade = CascadeType.PERSIST)
+	@OneToMany(mappedBy = "author", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	private Set<Book> books;
 
 }

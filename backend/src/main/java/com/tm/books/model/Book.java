@@ -62,13 +62,13 @@ public class Book implements Serializable {
 	@Column(name = "approved", columnDefinition = "TINYINT DEFAULT 0")
 	private Boolean approved;
 
-	@JsonView(Views.Book.class)
-	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonView({ Views.Book.class, Views.User.class })
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "author_id")
 	private Author author;
 
-	@JsonView(Views.Book.class)
-	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonView({ Views.Book.class, Views.Author.class })
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id")
 	private User user;
 

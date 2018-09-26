@@ -9,4 +9,6 @@ public interface BookService {
 
 	void saveBook(BookDTO bookDTO);
 
+	Boolean approveBook(Integer userId, Integer bookId);
+
 }

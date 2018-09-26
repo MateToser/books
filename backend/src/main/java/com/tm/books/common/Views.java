@@ -17,5 +17,4 @@ public interface Views {
 	public static class User extends Public {
 
 	}
-
 }
