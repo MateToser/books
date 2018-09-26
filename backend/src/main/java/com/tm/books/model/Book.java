@@ -14,6 +14,8 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.tm.books.common.Views;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -40,25 +42,32 @@ public class Book implements Serializable {
 	@Id
 	private Integer id;
 
+	@JsonView(Views.Public.class)
 	@Column(name = "title", length = 50, nullable = false)
 	private String title;
 
+	@JsonView(Views.Public.class)
 	@Column(name = "description", length = 500, nullable = false)
 	private String description;
 
+	@JsonView(Views.Public.class)
 	@Column(name = "price", nullable = false)
 	private Double price;
 
+	@JsonView(Views.Public.class)
 	@Column(name = "rating", nullable = false)
 	private Integer rating;
 
+	@JsonView(Views.Public.class)
 	@Column(name = "approved", columnDefinition = "TINYINT DEFAULT 0")
 	private Boolean approved;
 
+	@JsonView(Views.Book.class)
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "author_id")
 	private Author author;
 
+	@JsonView(Views.Book.class)
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	private User user;

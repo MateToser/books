@@ -13,8 +13,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.tm.books.common.Views;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -41,16 +42,19 @@ public class User implements Serializable {
 	@Id
 	private Integer id;
 
+	@JsonView(Views.Public.class)
 	@Column(name = "email", length = 50, nullable = false)
 	private String email;
 
+	@JsonView(Views.Public.class)
 	@Column(name = "first_name", length = 30, nullable = false)
 	private String firstName;
 
+	@JsonView(Views.Public.class)
 	@Column(name = "last_name", length = 30, nullable = false)
 	private String lastName;
 
-	@JsonIgnore
+	@JsonView(Views.User.class)
 	@OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
 	private Set<Book> books;
 

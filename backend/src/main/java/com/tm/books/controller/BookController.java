@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.tm.books.common.Views;
 import com.tm.books.dto.BookDTO;
 import com.tm.books.model.Book;
 import com.tm.books.service.api.BookService;
@@ -29,9 +31,10 @@ public class BookController {
 
 	private final BookService bookService;
 
+	@JsonView(Views.Book.class)
 	@GetMapping("/{bookId}")
 	@ResponseBody
-	public ResponseEntity<Book> gameCheck(@PathVariable(value = "bookId") Integer bookId) {
+	public ResponseEntity<Book> getBook(@PathVariable(value = "bookId") Integer bookId) {
 		try {
 			Book book = bookService.getBookById(bookId);
 			if (book == null) {
