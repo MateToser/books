@@ -49,9 +49,16 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	public Boolean approveBook(Integer userId, Integer bookId) {
-		Optional<User> user = userRepository.findById(userId);
-		if (user.isPresent()) {
-
+		Optional<Book> bookOptional = bookRepository.findById(bookId);
+		if (bookOptional.isPresent()) {
+			Book book = bookOptional.get();
+			Optional<User> user = userRepository.findById(userId);
+			Boolean approved = book.getApproved();
+			if (user.isPresent() && user.get().getApprover()) {
+				book.setApproved(!approved);
+				bookRepository.save(book);
+				return !approved;
+			}
 		}
 		return null;
 	}

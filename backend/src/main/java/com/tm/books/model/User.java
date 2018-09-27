@@ -34,7 +34,7 @@ public class User implements Serializable {
 	 *
 	 */
 	@Transient
-	private static final long serialVersionUID = -4195042896882550072L;
+	private static final long serialVersionUID = -5851794474500384768L;
 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
@@ -52,6 +52,10 @@ public class User implements Serializable {
 	@JsonView(Views.Public.class)
 	@Column(name = "last_name", length = 30, nullable = false)
 	private String lastName;
+
+	@JsonView(Views.Public.class)
+	@Column(name = "approver", columnDefinition = "TINYINT DEFAULT 0")
+	private Boolean approver;
 
 	@JsonView(Views.User.class)
 	@OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
