@@ -14,7 +14,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.tm.books.common.Views;
 
@@ -29,7 +28,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
-@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Author implements Serializable {
 
 	/**
@@ -48,7 +46,7 @@ public class Author implements Serializable {
 	private String name;
 
 	@JsonView(Views.Author.class)
-	@OneToMany(mappedBy = "author", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "author", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER, orphanRemoval = true)
 	private Set<Book> books;
 
 }
