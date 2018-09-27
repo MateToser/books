@@ -72,4 +72,23 @@ public class BookController {
 		}
 	}
 
+	@PutMapping("/approve/{userId}/{bookId}")
+	@ResponseBody
+	public ResponseEntity<Boolean> approveBook(@PathVariable(value = "userId") Integer userId,
+			@PathVariable(value = "bookId") Integer bookId) {
+		try {
+			Boolean approved = bookService.approveBook(userId, bookId);
+			return ResponseEntity.ok(approved);
+		} catch (InternalServerErrorException e) {
+			log.error("Nem sikerült a könyvet elfogadni: {}", "/api/book/approve/" + userId + "/" + bookId);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		} catch (BadRequestException e) {
+			log.error("Nem sikerült a könyvet elfogadni: {}", "/api/book/approve/" + userId + "/" + bookId);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		} catch (NotFoundException e) {
+			log.error("Nem sikerült a könyvet elfogadni: {}", "/api/book/approve/" + userId + "/" + bookId);
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+
 }
