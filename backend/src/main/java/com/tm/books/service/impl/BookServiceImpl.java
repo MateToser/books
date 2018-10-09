@@ -1,7 +1,12 @@
 package com.tm.books.service.impl;
 
+import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.tm.books.dto.BookDTO;
@@ -30,6 +35,19 @@ public class BookServiceImpl implements BookService {
 			return book.get();
 		}
 		return null;
+	}
+
+	@Override
+	public List<Book> getOrderedBooks(Integer page, Integer count, String order) {
+		Page<Book> pageBook = null;
+		if (order.equals("dateAsc")) {
+			Pageable pageable = PageRequest.of(page, count, Sort.by("id").ascending());
+			pageBook = bookRepository.findAll(pageable);
+		} else if (order.equals("dateDesc")) {
+			Pageable pageable = PageRequest.of(page, count, Sort.by("id").descending());
+			pageBook = bookRepository.findAll(pageable);
+		}
+		return pageBook.getContent();
 	}
 
 	@Override

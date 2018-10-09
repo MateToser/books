@@ -1,5 +1,7 @@
 package com.tm.books.controller;
 
+import java.util.List;
+
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.NotFoundException;
@@ -50,6 +52,30 @@ public class BookController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		} catch (NotFoundException e) {
 			log.error("Nem sikerült könyv lekérdezése: {}", "/api/book/" + bookId);
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+
+	@JsonView(Views.Book.class)
+	@GetMapping("/{page}/{count}/{order}")
+	@ResponseBody
+	public ResponseEntity<List<Book>> getOrderedBooks(@PathVariable(value = "page") Integer page,
+			@PathVariable(value = "count") Integer count, @PathVariable(value = "order") String order) {
+		try {
+			List<Book> books = bookService.getOrderedBooks(page, count, order);
+			if (books == null) {
+				log.error("Nincsenek könyvek: {}", "/api/book/" + page + "/" + count + "/" + order);
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			}
+			return ResponseEntity.ok(books);
+		} catch (InternalServerErrorException e) {
+			log.error("Nem sikerült a könyvek lekérdezése: {}", "/api/book/" + page + "/" + count + "/" + order);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		} catch (BadRequestException e) {
+			log.error("Nem sikerült a könyvek lekérdezése: {}", "/api/book/" + page + "/" + count + "/" + order);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		} catch (NotFoundException e) {
+			log.error("Nem sikerült a könyvek lekérdezése: {}", "/api/book/" + page + "/" + count + "/" + order);
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
